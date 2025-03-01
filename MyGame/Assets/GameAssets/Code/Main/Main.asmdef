@@ -1,10 +1,12 @@
 {
-    "name": "Game",
+    "name": "Main",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:13ba8ce62aa80c74598530029cb2d649"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,

@@ -1,28 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using HybridCLR;
-using HybridCLR.Editor.Settings;
 using UnityEngine;
+using HybridCLR;
 
 public class GameStart : MonoBehaviour
 {
-    // /// <summary>
-    // /// AOT
-    // /// </summary>
-    // private static List<string> AOTMetaAssemblyFiles { get; } = new List<string>()
-    // {
-    //     "mscorlib",
-    //     "System",
-    //     "System.Core",
-    // };
+    /// <summary>
+    /// AOT
+    /// </summary>
+    private static List<string> AOTMetaAssemblyFiles { get; } = new List<string>()
+        {
+            "mscorlib",
+            "System",
+            "System.Core",
+        };
 
-    // /// <summary>
-    // /// HotUpdateDll
-    // /// </summary>
-    // private static List<string> HotUpdateDll { get; } = new List<string>(){
-    //     "Game",
-    // };
+    /// <summary>
+    /// HotUpdateDll
+    /// </summary>
+    private static List<string> HotUpdateDll { get; } = new List<string>(){
+            "Game",
+        };
 
     void Start()
     {
@@ -47,7 +45,7 @@ public class GameStart : MonoBehaviour
         /// 热更新dll不缺元数据，不需要补充，如果调用LoadMetadataForAOTAssembly会返回错误
         /// 
         HomologousImageMode mode = HomologousImageMode.SuperSet;
-        foreach (var aotDllName in HybridCLRSettings.Instance.patchAOTAssemblies)
+        foreach (var aotDllName in AOTMetaAssemblyFiles)
         {
             byte[] dllBytes = ReadDllBytes(aotDllName);
             // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
@@ -68,7 +66,7 @@ public class GameStart : MonoBehaviour
     /// </summary>
     private void LoadHotUpdateDll()
     {
-        foreach (var hotUpdateDll in HybridCLRSettings.Instance.hotUpdateAssemblies)
+        foreach (var hotUpdateDll in HotUpdateDll)
         {
             byte[] dllBytes = ReadDllBytes(hotUpdateDll);
             Assembly.Load(dllBytes);
