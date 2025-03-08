@@ -14,13 +14,13 @@ internal class SceneBattle : MonoBehaviour
     private IEnumerator Start()
     {
         // 加载战斗页面
-        _windowHandle = YooAssets.LoadAssetAsync<GameObject>("UIBattle");
+        _windowHandle = YooAssets.LoadAssetAsync<GameObject>("GameRes/UIPanel/UIBattle.prefab");
         yield return _windowHandle;
         _windowHandle.InstantiateSync(CanvasDesktop.transform);
 
         // 加载背景音乐
         var package = YooAssets.GetPackage("DefaultPackage");
-        _musicHandle = package.LoadAssetAsync<AudioClip>("music_background");
+        _musicHandle = package.LoadAssetAsync<AudioClip>("GameRes/Audio/music_background.wav");
         yield return _musicHandle;
 
         // 播放背景音乐

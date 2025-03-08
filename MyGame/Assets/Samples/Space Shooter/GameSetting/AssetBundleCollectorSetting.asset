@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssetBundleCollectorSetting
   m_EditorClassIdentifier: 
   ShowPackageView: 1
-  ShowEditorAlias: 0
+  ShowEditorAlias: 1
   UniqueBundleName: 1
   Packages:
   - PackageName: DefaultPackage
@@ -26,76 +26,76 @@ MonoBehaviour:
     Groups:
     - GroupName: battle
       GroupDesc: "\u6218\u6597"
-      AssetTags: 
+      AssetTags: battle
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/Effect
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/Effect
         CollectorGUID: 80d76514758554baaa96a9efffe9f3ef
         CollectorType: 0
-        AddressRuleName: AddressByFileName
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/Entity
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/Entity
         CollectorGUID: 4d7c84745db8e884f8020a8c5356e67c
         CollectorType: 0
-        AddressRuleName: AddressByFileName
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/Audio
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/Audio
         CollectorGUID: 306075fbe00b24251b6c889984a7a7d5
         CollectorType: 0
-        AddressRuleName: AddressByFileName
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/EffectArt
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/EffectArt
         CollectorGUID: 08d38891fe56f75448d95b93bf3e6c5c
-        CollectorType: 2
-        AddressRuleName: AddressByFileName
+        CollectorType: 0
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/EntityArt
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/EntityArt
         CollectorGUID: b79178f10b84c764f8c91480b4fdabe8
-        CollectorType: 2
-        AddressRuleName: AddressByFileName
+        CollectorType: 0
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
     - GroupName: shader
       GroupDesc: "\u7740\u8272\u5668"
-      AssetTags: 
+      AssetTags: shader
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/Shader
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/Shader
         CollectorGUID: 08b316670a5365349bbdfb4a41c71ce6
-        CollectorType: 1
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackShader
-        FilterRuleName: CollectShader
+        CollectorType: 0
+        AddressRuleName: AddressByPathNoPerfix
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/ShaderVariants
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/ShaderVariants
         CollectorGUID: 00781758c26692e40a9634ddeac838be
-        CollectorType: 1
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackShaderVariants
-        FilterRuleName: CollectShaderVariants
+        CollectorType: 0
+        AddressRuleName: AddressByPathNoPerfix
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
     - GroupName: scene
       GroupDesc: "\u573A\u666F"
-      AssetTags: 
+      AssetTags: scene
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/Scene
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/Scene
         CollectorGUID: 6070eae1192f2994887f2983a177d503
         CollectorType: 0
         AddressRuleName: AddressByFileName
@@ -103,7 +103,7 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/SceneArt
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/SceneArt
         CollectorGUID: 79d1889926b73c24a90c17cc41b46cc6
         CollectorType: 2
         AddressRuleName: AddressByFileName
@@ -113,29 +113,29 @@ MonoBehaviour:
         UserData: 
     - GroupName: ugui
       GroupDesc: "\u9762\u677F"
-      AssetTags: 
+      AssetTags: ugui
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/UIPanel
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/UIPanel
         CollectorGUID: 12d33f33f3a55224c9c747d7bffa1c68
         CollectorType: 0
-        AddressRuleName: AddressByFileName
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/UIPanelArt
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/UIPanelArt
         CollectorGUID: 7996e995574af62488d65dd4610c2478
-        CollectorType: 2
-        AddressRuleName: AddressByFileName
+        CollectorType: 0
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Samples/YooAsset/2.2.12/Space Shooter/GameRes/UIFont
+      - CollectPath: Assets/Samples/Space Shooter/GameRes/UIFont
         CollectorGUID: 464727a15e4a7dc4d895346374432399
-        CollectorType: 2
-        AddressRuleName: AddressByFileName
+        CollectorType: 0
+        AddressRuleName: AddressByPathNoPerfix
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 

@@ -11,7 +11,7 @@ public class SceneHome : MonoBehaviour
     private IEnumerator Start()
     {        
         // 加载主页面
-        _windowHandle = YooAssets.LoadAssetAsync<GameObject>("UIHome");
+        _windowHandle = YooAssets.LoadAssetAsync<GameObject>("GameRes/UIPanel/UIHome.prefab");
         yield return _windowHandle;
         _windowHandle.InstantiateSync(CanvasDesktop.transform);
     }
