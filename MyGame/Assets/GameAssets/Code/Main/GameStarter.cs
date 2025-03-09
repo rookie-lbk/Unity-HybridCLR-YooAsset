@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UniFramework.Event;
 using UniFramework.Singleton;
+using UniFramework.Window;
 using UnityEngine;
 using YooAsset;
 
@@ -8,9 +9,11 @@ public class GameStarter : MonoBehaviour
 {
     public EPlayMode PlayMode = EPlayMode.EditorSimulateMode;
     public int DefaultFrameRate = 60;
+    public GameObject Desktop;
 
     void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
         Application.targetFrameRate = DefaultFrameRate;
         Application.runInBackground = true;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -29,6 +32,8 @@ public class GameStarter : MonoBehaviour
         UniEvent.Initalize();
 
         UniSingleton.Initialize();
+
+        UniWindow.Initalize(Desktop);
 
         YooAssets.Initialize();
 

@@ -25,14 +25,12 @@ internal class FsmLunchHotUpdate : IStateNode
 	}
 	async UniTask IStateNode.OnExit()
 	{
-		UniWindow.CloseWindow<UIHomeWindow>();
 	}
 
 	async UniTask Prepare()
 	{
-
 		var package = YooAssets.GetPackage(PublicData.PackageName);
-		var loadHandle = package.LoadAssetAsync<GameObject>("HotUpdateLuncher");
+		var loadHandle = package.LoadAssetAsync<GameObject>("UIPanel/HotUpdateLuncher.prefab");
 		await loadHandle.ToUniTask();
 		if (loadHandle.Status == EOperationStatus.Succeed)
 		{
@@ -43,5 +41,6 @@ internal class FsmLunchHotUpdate : IStateNode
 			Debug.Log("加载热更新预制体完成");
 		}
 		await package.UnloadUnusedAssetsAsync();
+		PatchManager.Instance.SetFinish();
 	}
 }

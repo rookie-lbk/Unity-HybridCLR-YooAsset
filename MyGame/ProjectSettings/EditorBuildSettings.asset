@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Samples/Space Shooter/Boot.unity
-    guid: 85a6ff7b4358ec1489750f462979d493
+    path: Assets/Scenes/Start.unity
+    guid: 469803e5c86553c46beadddc9e303d9f
   m_configObjects: {}

@@ -13,60 +13,60 @@ using Cysharp.Threading.Tasks;
 /// </summary>
 internal class FsmInitialize : IStateNode
 {
-	private StateMachine _machine;
+    private StateMachine _machine;
 
-	async UniTask IStateNode.OnCreate(StateMachine machine)
-	{
-		_machine = machine;
-	}
-	async UniTask IStateNode.OnEnter()
-	{
-		PatchEventDefine.PatchStatesChange.SendEventMessage("初始化资源包！");
-		await InitPackage();
-	}
-	async UniTask IStateNode.OnUpdate()
-	{
-	}
-	async UniTask IStateNode.OnExit()
-	{
-	}
+    async UniTask IStateNode.OnCreate(StateMachine machine)
+    {
+        _machine = machine;
+    }
+    async UniTask IStateNode.OnEnter()
+    {
+        PatchEventDefine.PatchStatesChange.SendEventMessage("初始化资源包！");
+        await InitPackage();
+    }
+    async UniTask IStateNode.OnUpdate()
+    {
+    }
+    async UniTask IStateNode.OnExit()
+    {
+    }
 
-	private async UniTask InitPackage()
-	{
-		
-		var playMode = PatchManager.Instance.PlayMode;
+    private async UniTask InitPackage()
+    {
 
-		// 创建默认的资源包
-		string packageName = PublicData.PackageName;
-		var package = YooAssets.TryGetPackage(packageName);
-		if (package == null)
-		{
-			package = YooAssets.CreatePackage(packageName);
-			YooAssets.SetDefaultPackage(package);
-		}
+        var playMode = PatchManager.Instance.PlayMode;
 
-		// 编辑器下的模拟模式
-		InitializationOperation initializationOperation = null;
-		if (playMode == EPlayMode.EditorSimulateMode)
-		{
-			var createParameters = new EditorSimulateModeParameters();
-			var buildResult = EditorSimulateModeHelper.SimulateBuild(packageName);
-			var packageRoot = buildResult.PackageRootDirectory;
-			createParameters.EditorFileSystemParameters = FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot);
-			initializationOperation = package.InitializeAsync(createParameters);
-		}
+        // 创建默认的资源包
+        string packageName = PublicData.PackageName;
+        var package = YooAssets.TryGetPackage(packageName);
+        if (package == null)
+        {
+            package = YooAssets.CreatePackage(packageName);
+            YooAssets.SetDefaultPackage(package);
+        }
 
-		// 单机运行模式
-		if (playMode == EPlayMode.OfflinePlayMode)
-		{
-			var createParameters = new OfflinePlayModeParameters();
-			createParameters.BuildinFileSystemParameters = FileSystemParameters.CreateDefaultBuildinFileSystemParameters();
-			initializationOperation = package.InitializeAsync(createParameters);
-		}
+        // 编辑器下的模拟模式
+        InitializationOperation initializationOperation = null;
+        if (playMode == EPlayMode.EditorSimulateMode)
+        {
+            var createParameters = new EditorSimulateModeParameters();
+            var buildResult = EditorSimulateModeHelper.SimulateBuild(packageName);
+            var packageRoot = buildResult.PackageRootDirectory;
+            createParameters.EditorFileSystemParameters = FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot);
+            initializationOperation = package.InitializeAsync(createParameters);
+        }
 
-		// 联机运行模式
-		if (playMode == EPlayMode.HostPlayMode)
-		{
+        // 单机运行模式
+        if (playMode == EPlayMode.OfflinePlayMode)
+        {
+            var createParameters = new OfflinePlayModeParameters();
+            createParameters.BuildinFileSystemParameters = FileSystemParameters.CreateDefaultBuildinFileSystemParameters();
+            initializationOperation = package.InitializeAsync(createParameters);
+        }
+
+        // 联机运行模式
+        if (playMode == EPlayMode.HostPlayMode)
+        {
             string defaultHostServer = GetHostServerURL();
             string fallbackHostServer = GetHostServerURL();
             IRemoteServices remoteServices = new RemoteServices(defaultHostServer, fallbackHostServer);
@@ -74,28 +74,28 @@ internal class FsmInitialize : IStateNode
             createParameters.BuildinFileSystemParameters = FileSystemParameters.CreateDefaultBuildinFileSystemParameters();
             createParameters.CacheFileSystemParameters = FileSystemParameters.CreateDefaultCacheFileSystemParameters(remoteServices);
             initializationOperation = package.InitializeAsync(createParameters);
-		}
+        }
 
-		await initializationOperation.ToUniTask();
-		if (package.InitializeStatus == EOperationStatus.Succeed)
-		{
+        await initializationOperation.ToUniTask();
+        if (package.InitializeStatus == EOperationStatus.Succeed)
+        {
 
-			_machine.ChangeState<FsmUpdateVersion>();
-		}
-		else
-		{
-			Debug.LogWarning($"{initializationOperation.Error}");
-			PatchEventDefine.InitializeFailed.SendEventMessage();
-		}
-	}
+            _machine.ChangeState<FsmUpdateVersion>();
+        }
+        else
+        {
+            Debug.LogWarning($"{initializationOperation.Error}");
+            PatchEventDefine.InitializeFailed.SendEventMessage();
+        }
+    }
 
     /// <summary>
     /// 获取资源服务器地址
     /// </summary>
     private string GetHostServerURL()
     {
-        string hostServerIP = "http://192.168.31.218:8086/chfs/shared/CDN/MyGame";
-        string appVersion = "1.0.0";
+        string hostServerIP = HttpHelper.HttpHost;
+        string appVersion = PublicData.Version;
 
 #if UNITY_EDITOR
         if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.Android)

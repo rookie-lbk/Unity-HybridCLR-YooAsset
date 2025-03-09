@@ -10,6 +10,12 @@ using Cysharp.Threading.Tasks;
 
 public class PatchManager : SingletonInstance<PatchManager>, ISingleton
 {
+	private enum ESteps
+	{
+		None,
+		Update,
+		Done,
+	}
 	/// <summary>
 	/// 运行模式
 	/// </summary>
@@ -29,6 +35,7 @@ public class PatchManager : SingletonInstance<PatchManager>, ISingleton
 	private bool _isRun = false;
 	private EventGroup _eventGroup = new EventGroup();
 	private StateMachine _machine;
+	private ESteps _steps = ESteps.None;
 
 	async UniTask ISingleton.OnCreate(object createParam)
 	{
@@ -39,6 +46,9 @@ public class PatchManager : SingletonInstance<PatchManager>, ISingleton
 	}
 	async UniTask ISingleton.OnUpdate()
 	{
+		if (_steps == ESteps.None || _steps == ESteps.Done)
+			return;
+
 		if (_machine != null)
 			_machine.Update();
 	}
@@ -80,6 +90,7 @@ public class PatchManager : SingletonInstance<PatchManager>, ISingleton
 		{
 			Debug.LogWarning("补丁更新已经正在进行中!");
 		}
+		_steps = ESteps.Update;
 	}
 
 	/// <summary>
@@ -111,5 +122,14 @@ public class PatchManager : SingletonInstance<PatchManager>, ISingleton
 		{
 			throw new System.NotImplementedException($"{message.GetType()}");
 		}
+	}
+
+	public void SetFinish()
+	{
+		_steps = ESteps.Done;
+		_eventGroup.RemoveAllListener();
+
+		// 切换到主页面场景
+		SceneEventDefine.ChangeToHomeScene.SendEventMessage();
 	}
 }

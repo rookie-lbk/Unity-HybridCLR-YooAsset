@@ -22,7 +22,8 @@ internal class FsmPatchPrepare : IStateNode
 	{
 		// 加载更新面板
 		var go = Resources.Load<GameObject>("PatchWindow");
-		GameObject.Instantiate(go);
+		var uiRoot = GameObject.Find("GameStart/UIRoot/Canvas/Panel");
+		GameObject.Instantiate(go, uiRoot.transform);
 
 		_machine.ChangeState<FsmCheckNetwork>();
 	}

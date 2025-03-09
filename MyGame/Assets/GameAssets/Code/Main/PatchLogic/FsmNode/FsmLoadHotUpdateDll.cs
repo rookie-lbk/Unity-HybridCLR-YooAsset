@@ -19,7 +19,7 @@ public class FsmLoadHotUpdateDll : IStateNode
 
     async UniTask IStateNode.OnEnter()
     {
-        // ´´½¨ÓÎÏ·¹ÜÀíÆ÷
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         UniSingleton.CreateSingleton<HotUpdateManager>();
         await LoadMetadataForAOTAssemblies();
         await LoadHotUpdateAssemblies();
@@ -33,7 +33,36 @@ public class FsmLoadHotUpdateDll : IStateNode
 
     async UniTask IStateNode.OnUpdate()
     {
-;
+        ;
+    }
+
+    public async UniTask LoadMetadataForAOTAssemblies()
+    {
+        HomologousImageMode mode = HomologousImageMode.SuperSet;
+        var package = YooAssets.TryGetPackage(PublicData.PackageName);
+        if (package == null)
+        {
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½È¡Ê§ï¿½ï¿½");
+        }
+        var handle = package.LoadRawFileAsync("AOTDLLList");
+        await handle.ToUniTask();
+        var data = handle.GetRawFileText();
+        var dllNames = JsonConvert.DeserializeObject<List<string>>(data);
+        Debug.Log("LoadMetadataForAOTAssemblies------Start");
+        foreach (var name in dllNames)
+        {
+            Debug.Log("LoadMetadataForAOTAssemblies:" + name);
+            var dataHandle = package.LoadRawFileAsync(name);
+            await dataHandle.ToUniTask();
+            var dllData = dataHandle.GetRawFileData();
+            if (data == null)
+            {
+                continue;
+            }
+            LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllData, mode);
+            // Debug.Log($"LoadMetadataForAOTAssembly:{name}. mode:{mode} ret:{err}");
+        }
+        Debug.Log("LoadMetadataForAOTAssemblies------End");
     }
 
     async UniTask LoadHotUpdateAssemblies()
@@ -41,7 +70,7 @@ public class FsmLoadHotUpdateDll : IStateNode
         var package = YooAssets.TryGetPackage(PublicData.PackageName);
         if (package == null)
         {
-            Debug.Log("°ü»ñÈ¡Ê§°Ü");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½È¡Ê§ï¿½ï¿½");
         }
         var handle = package.LoadRawFileAsync("HotUpdateDLLList");
         await handle.ToUniTask();
@@ -53,45 +82,19 @@ public class FsmLoadHotUpdateDll : IStateNode
             await dataHandle.ToUniTask();
             if (dataHandle.Status != EOperationStatus.Succeed)
             {
-                Debug.Log("×ÊÔ´¼ÓÔØÊ§°Ü" + DllName);
+                Debug.Log("ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½" + DllName);
                 return;
             }
             var dllData = dataHandle.GetRawFileData();
             if (dllData == null)
             {
-                Debug.Log("»ñÈ¡DllÊý¾ÝÊ§°Ü");
+                Debug.Log("ï¿½ï¿½È¡Dllï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½");
                 return;
             }
             Assembly assembly = Assembly.Load(dllData);
             HotUpdateManager.Instance.HotUpdateAssemblies.Add(DllName, assembly);
             Debug.Log(assembly.GetTypes());
-            Debug.Log($"¼ÓÔØÈÈ¸üÐÂDll:{DllName}");
-        }
-    }
-    public async UniTask LoadMetadataForAOTAssemblies()
-    {
-        HomologousImageMode mode = HomologousImageMode.SuperSet;
-        var package = YooAssets.TryGetPackage(PublicData.PackageName);
-        if (package == null)
-        {
-            Debug.Log("°ü»ñÈ¡Ê§°Ü");
-        }
-        var handle = package.LoadRawFileAsync("AOTDLLList");
-        await handle.ToUniTask();
-        var data = handle.GetRawFileText();
-        var dllNames = JsonConvert.DeserializeObject<List<string>>(data);
-        foreach (var name in dllNames)
-        {
-            var dataHandle = package.LoadRawFileAsync(name);
-            await dataHandle.ToUniTask();
-            var dllData = dataHandle.GetRawFileData();
-            if (data == null)
-            {
-                continue;
-            }
-            // ¼ÓÔØassembly¶ÔÓ¦µÄdll£¬»á×Ô¶¯ÎªËühook¡£Ò»µ©aot·ºÐÍº¯ÊýµÄnativeº¯Êý²»´æÔÚ£¬ÓÃ½âÊÍÆ÷°æ±¾´úÂë
-            LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllData, mode);
-            Debug.Log($"LoadMetadataForAOTAssembly:{name}. mode:{mode} ret:{err}");
+            Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½Dll:{DllName}");
         }
     }
 }

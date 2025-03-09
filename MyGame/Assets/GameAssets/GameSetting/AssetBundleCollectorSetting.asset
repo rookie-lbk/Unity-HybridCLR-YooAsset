@@ -140,3 +140,29 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
+    - GroupName: aot
+      GroupDesc: "aot\u8865\u5145"
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/GameAssets/DLLs/AOTDll
+        CollectorGUID: ecc704d0bad7da94081504f91ab7ff5b
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackRawFile
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+    - GroupName: hotupdate
+      GroupDesc: "\u70ED\u66F4\u65B0\u4EE3\u7801"
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/GameAssets/DLLs/HotUpdateDll
+        CollectorGUID: 1b754bf33734421418288ac1e12637d3
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackRawFile
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
