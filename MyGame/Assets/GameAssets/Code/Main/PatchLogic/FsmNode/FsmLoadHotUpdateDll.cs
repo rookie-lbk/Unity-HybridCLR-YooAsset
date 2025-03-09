@@ -44,9 +44,16 @@ public class FsmLoadHotUpdateDll : IStateNode
         {
             Debug.Log("包获取失败");
         }
+#if UNITY_EDITOR
         var handle = package.LoadRawFileAsync("AOTDLLList");
         await handle.ToUniTask();
         var data = handle.GetRawFileText();
+#else
+        var handle = package.LoadAssetAsync<TextAsset>("AOTDLLList");
+        await handle.ToUniTask();
+        var data = handle.GetAssetObject<TextAsset>().text;
+#endif
+        Debug.Log(data);
         var dllNames = JsonConvert.DeserializeObject<List<string>>(data);
         Debug.Log("LoadMetadataForAOTAssemblies------Start");
         foreach (var name in dllNames)
@@ -61,7 +68,7 @@ public class FsmLoadHotUpdateDll : IStateNode
             }
             // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
             LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllData, mode);
-            // Debug.Log($"LoadMetadataForAOTAssembly:{name}. mode:{mode} ret:{err}");
+            Debug.Log($"LoadMetadataForAOTAssembly:{name}. mode:{mode} ret:{err}");
         }
         Debug.Log("LoadMetadataForAOTAssemblies------End");
     }
@@ -73,9 +80,15 @@ public class FsmLoadHotUpdateDll : IStateNode
         {
             Debug.Log("包获取失败");
         }
+#if UNITY_EDITOR
         var handle = package.LoadRawFileAsync("HotUpdateDLLList");
         await handle.ToUniTask();
         var data = handle.GetRawFileText();
+#else
+        var handle = package.LoadAssetAsync<TextAsset>("HotUpdateDLLList");
+        await handle.ToUniTask();
+        var data = handle.GetAssetObject<TextAsset>().text;
+#endif
         var dllNames = JsonConvert.DeserializeObject<List<string>>(data);
         foreach (var DllName in dllNames)
         {
