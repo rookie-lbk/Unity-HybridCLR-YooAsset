@@ -129,6 +129,7 @@ public class PatchManager : SingletonInstance<PatchManager>, ISingleton
 		_steps = ESteps.Done;
 		_eventGroup.RemoveAllListener();
 
+		Debug.Log("开始游戏！");
 		// 切换到主页面场景
 		SceneEventDefine.ChangeToHomeScene.SendEventMessage();
 	}

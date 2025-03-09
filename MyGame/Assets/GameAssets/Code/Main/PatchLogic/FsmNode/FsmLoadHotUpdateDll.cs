@@ -19,7 +19,7 @@ public class FsmLoadHotUpdateDll : IStateNode
 
     async UniTask IStateNode.OnEnter()
     {
-        // ������Ϸ������
+        // 创建游戏管理器
         UniSingleton.CreateSingleton<HotUpdateManager>();
         await LoadMetadataForAOTAssemblies();
         await LoadHotUpdateAssemblies();
@@ -42,7 +42,7 @@ public class FsmLoadHotUpdateDll : IStateNode
         var package = YooAssets.TryGetPackage(PublicData.PackageName);
         if (package == null)
         {
-            Debug.Log("����ȡʧ��");
+            Debug.Log("包获取失败");
         }
         var handle = package.LoadRawFileAsync("AOTDLLList");
         await handle.ToUniTask();
@@ -59,6 +59,7 @@ public class FsmLoadHotUpdateDll : IStateNode
             {
                 continue;
             }
+            // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
             LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllData, mode);
             // Debug.Log($"LoadMetadataForAOTAssembly:{name}. mode:{mode} ret:{err}");
         }
@@ -70,7 +71,7 @@ public class FsmLoadHotUpdateDll : IStateNode
         var package = YooAssets.TryGetPackage(PublicData.PackageName);
         if (package == null)
         {
-            Debug.Log("����ȡʧ��");
+            Debug.Log("包获取失败");
         }
         var handle = package.LoadRawFileAsync("HotUpdateDLLList");
         await handle.ToUniTask();
@@ -82,19 +83,19 @@ public class FsmLoadHotUpdateDll : IStateNode
             await dataHandle.ToUniTask();
             if (dataHandle.Status != EOperationStatus.Succeed)
             {
-                Debug.Log("��Դ����ʧ��" + DllName);
+                Debug.Log("资源加载失败" + DllName);
                 return;
             }
             var dllData = dataHandle.GetRawFileData();
             if (dllData == null)
             {
-                Debug.Log("��ȡDll����ʧ��");
+                Debug.Log("获取Dll数据失败");
                 return;
             }
             Assembly assembly = Assembly.Load(dllData);
             HotUpdateManager.Instance.HotUpdateAssemblies.Add(DllName, assembly);
             Debug.Log(assembly.GetTypes());
-            Debug.Log($"�����ȸ���Dll:{DllName}");
+            Debug.Log($"加载热更新Dll:{DllName}");
         }
     }
 }

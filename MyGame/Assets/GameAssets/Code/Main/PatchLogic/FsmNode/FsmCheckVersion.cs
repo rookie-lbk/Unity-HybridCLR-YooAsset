@@ -54,11 +54,11 @@ public class FsmCheckVersion : IStateNode
     }
     public async UniTask OnExit()
     {
-        
+
     }
 
     public async UniTask OnUpdate()
     {
-        
+
     }
 }

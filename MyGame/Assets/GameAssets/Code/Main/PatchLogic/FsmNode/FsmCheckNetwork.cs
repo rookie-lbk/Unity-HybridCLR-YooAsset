@@ -33,7 +33,7 @@ public class FsmCheckNetwork : IStateNode
         cts.CancelAfterSlim(TimeSpan.FromSeconds(3));
         try
         {
-            Debug.Log("发起请求" + HttpHelper.HttpHost);
+            Debug.Log("鍙戣捣璇锋眰" + HttpHelper.HttpHost);
             await request.SendWebRequest().WithCancellation(cts.Token);
         }
         catch (OperationCanceledException ex)
@@ -53,7 +53,7 @@ public class FsmCheckNetwork : IStateNode
         if (request.result != UnityWebRequest.Result.Success)
         {
             isHasInternet = false;
-            Debug.Log("链接出错,无法访问" + HttpHelper.HttpHost);
+            Debug.Log("閾炬帴鍑洪敊,鏃犳硶璁块棶" + HttpHelper.HttpHost);
             Debug.Log(request.error);
             request.Dispose();
         }
@@ -64,7 +64,7 @@ public class FsmCheckNetwork : IStateNode
         }
         else
         {
-            Debug.Log("因网络问题，进入离线加载模式");
+            Debug.Log("鍥犵綉缁滈棶棰橈紝杩涘叆绂荤嚎鍔犺浇妯″紡");
             PatchManager.Instance.PlayMode = YooAsset.EPlayMode.OfflinePlayMode;
             _machine.ChangeState<FsmInitialize>();
         }
