@@ -486,7 +486,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayMode: 0
   DefaultFrameRate: 60
-  Desktop: {fileID: 1083994551}
 --- !u!1 &1811140141
 GameObject:
   m_ObjectHideFlags: 0

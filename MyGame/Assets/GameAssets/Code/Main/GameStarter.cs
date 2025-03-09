@@ -9,7 +9,6 @@ public class GameStarter : MonoBehaviour
 {
     public EPlayMode PlayMode = EPlayMode.EditorSimulateMode;
     public int DefaultFrameRate = 60;
-    public GameObject Desktop;
 
     void Awake()
     {
@@ -32,8 +31,6 @@ public class GameStarter : MonoBehaviour
         UniEvent.Initalize();
 
         UniSingleton.Initialize();
-
-        UniWindow.Initalize(Desktop);
 
         YooAssets.Initialize();
 
