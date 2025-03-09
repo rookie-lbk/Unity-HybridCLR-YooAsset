@@ -27,27 +27,31 @@ public class FsmCheckVersion : IStateNode
     {
         if (PatchManager.Instance.PlayMode != EPlayMode.HostPlayMode)
         {
-            Debug.Log("编辑器模拟运行，无需请求版本文件");
+            Debug.Log("缂栬緫鍣ㄦā鎷熻繍琛岋紝鏃犻渶璇锋眰鐗堟湰鏂囦欢");
             return;
         }
-        UnityWebRequest request = new UnityWebRequest($"{HttpHelper.HttpHost}VERSION.txt");
+        string url = $"{HttpHelper.HttpHost}Android/VERSION.txt";
+#if UNITY_IOS
+        string url = $"{HttpHelper.HttpHost}IOS/VERSION.txt";
+#endif
+        UnityWebRequest request = new UnityWebRequest(url);
         DownloadHandlerBuffer dH = new DownloadHandlerBuffer();
         request.downloadHandler = dH;
         var cts = new CancellationTokenSource();
         cts.CancelAfterSlim(TimeSpan.FromSeconds(3));
         try
         {
-            Debug.Log("发起获取版本请求");
+            Debug.Log("鍙戣捣鑾峰彇鐗堟湰璇锋眰");
             await request.SendWebRequest().WithCancellation(cts.Token);
         }
         catch (OperationCanceledException ex)
         {
             if (ex.CancellationToken == cts.Token)
             {
-                Debug.Log("获取版本文件失败!");
+                Debug.Log("鑾峰彇鐗堟湰鏂囦欢澶辫触!");
             }
         }
-        Debug.Log("读取版本");
+        Debug.Log("璇诲彇鐗堟湰");
         var data = request.downloadHandler.text;
         Debug.Log(data);
         PublicData.Version = data;

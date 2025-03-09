@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 public class HttpHelper 
 {
-    public static string HttpHost = "http://192.168.31.218:8086/chfs/shared/CDN/MyGame";
+    public static string HttpHost = "http://192.168.31.218:8086/chfs/shared/CDN/MyGame/";
     // Start is called before the first frame update
     public static async UniTask<byte[]> Request(string path)
     {

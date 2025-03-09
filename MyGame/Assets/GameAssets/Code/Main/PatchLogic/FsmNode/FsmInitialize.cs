@@ -99,18 +99,18 @@ internal class FsmInitialize : IStateNode
 
 #if UNITY_EDITOR
         if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.Android)
-            return $"{hostServerIP}/CDN/Android/{appVersion}";
+            return $"{hostServerIP}Android/CDN/{appVersion}";
         else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.iOS)
-            return $"{hostServerIP}/CDN/IOS/{appVersion}";
+            return $"{hostServerIP}IOS/CDN/{appVersion}";
         else
-            return $"{hostServerIP}/CDN/Win/{appVersion}";
+            return $"{hostServerIP}Win/CDN/{appVersion}";
 #else
         if (Application.platform == RuntimePlatform.Android)
-            return $"{hostServerIP}/CDN/Android/{appVersion}";
+            return $"{hostServerIP}Android/CDN/{appVersion}";
         else if (Application.platform == RuntimePlatform.IPhonePlayer)
-            return $"{hostServerIP}/CDN/IOS/{appVersion}";
+            return $"{hostServerIP}IOS/CDN/{appVersion}";
         else
-            return $"{hostServerIP}/CDN/Win/{appVersion}";
+            return $"{hostServerIP}Win/CDN/{appVersion}";
 #endif
     }
 

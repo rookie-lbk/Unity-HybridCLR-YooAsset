@@ -31,6 +31,7 @@ public class FsmCreateDownloader : IStateNode
         int downloadingMaxNum = 10;
         int failedTryAgain = 3;
         var downloader = package.CreateResourceDownloader(downloadingMaxNum, failedTryAgain);
+        PatchManager.Instance.Downloader = downloader;
 
         if (downloader.TotalDownloadCount == 0)
         {
