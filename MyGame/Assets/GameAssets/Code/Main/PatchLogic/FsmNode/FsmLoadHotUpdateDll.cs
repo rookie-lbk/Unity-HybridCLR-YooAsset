@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using HybridCLR;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UniFramework.Machine;
@@ -8,6 +7,7 @@ using UniFramework.Singleton;
 using UnityEngine;
 using YooAsset;
 using Newtonsoft.Json;
+using System;
 public class FsmLoadHotUpdateDll : IStateNode
 {
     private StateMachine _machine;
@@ -92,6 +92,19 @@ public class FsmLoadHotUpdateDll : IStateNode
         var dllNames = JsonConvert.DeserializeObject<List<string>>(data);
         foreach (var DllName in dllNames)
         {
+            Debug.Log($"加载热更新Dll:{DllName}");
+
+            // string url = Application.streamingAssetsPath + "/" + DllName + ".bytes";
+            // UnityWebRequest www = UnityWebRequest.Get(url);
+            // await www.SendWebRequest();
+            // if (www.result != UnityWebRequest.Result.Success)
+            // {
+            //     Debug.LogError("加载热更新Dll失败" + DllName);
+            //     continue;
+            // }
+
+            // byte[] dllData = www.downloadHandler.data;
+
             var dataHandle = package.LoadRawFileAsync(DllName);
             await dataHandle.ToUniTask();
             if (dataHandle.Status != EOperationStatus.Succeed)
@@ -105,10 +118,20 @@ public class FsmLoadHotUpdateDll : IStateNode
                 Debug.Log("获取Dll数据失败");
                 return;
             }
-            Assembly assembly = Assembly.Load(dllData);
-            HotUpdateManager.Instance.HotUpdateAssemblies.Add(DllName, assembly);
-            Debug.Log(assembly.GetTypes());
-            Debug.Log($"加载热更新Dll:{DllName}");
+            try
+            {
+                Debug.Log("LoadHotUpdateAssemblies:---1------------");
+                Assembly assembly = Assembly.Load(dllData);
+                Debug.Log($"DLL加载成功: {assembly.FullName}");
+                HotUpdateManager.Instance.HotUpdateAssemblies.Add(DllName, assembly);
+                Debug.Log($"加载热更新Dll:{DllName}成功");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"DLL加载或执行过程中发生错误: {e.Message}");
+                Debug.LogError($"详细错误信息: {e.StackTrace}");
+                throw;
+            }
         }
     }
 }

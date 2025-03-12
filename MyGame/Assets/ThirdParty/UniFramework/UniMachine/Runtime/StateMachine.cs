@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UniFramework.Machine
 {
@@ -116,6 +117,7 @@ namespace UniFramework.Machine
         }
         public void ChangeState(string nodeName)
         {
+            Debug.Log($"======ChangeState:{_curNode.GetType().FullName} --> {nodeName}");
             if (string.IsNullOrEmpty(nodeName))
                 throw new ArgumentNullException();
 
