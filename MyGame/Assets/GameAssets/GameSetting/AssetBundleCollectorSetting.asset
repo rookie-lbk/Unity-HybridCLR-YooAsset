@@ -148,8 +148,8 @@ MonoBehaviour:
       - CollectPath: Assets/GameAssets/DLLs/AOTDll
         CollectorGUID: ecc704d0bad7da94081504f91ab7ff5b
         CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackRawFile
+        AddressRuleName: DLLAddressByPathNoPerfix
+        PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
@@ -161,8 +161,8 @@ MonoBehaviour:
       - CollectPath: Assets/GameAssets/DLLs/HotUpdateDll
         CollectorGUID: 1b754bf33734421418288ac1e12637d3
         CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackRawFile
+        AddressRuleName: DLLAddressByPathNoPerfix
+        PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 

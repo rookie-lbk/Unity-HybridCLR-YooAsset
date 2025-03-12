@@ -19,7 +19,7 @@ public class HotUpdateLuncher : MonoBehaviour
     {
         //await YooAssets.LoadSceneAsync("HotUpdateScene");
         await YooAssets.LoadSceneAsync("HotUpdateScene");
-        //Debug.Log("热更新测试");
+        Debug.Log("热更新测试");
     }
     void Update()
     {
