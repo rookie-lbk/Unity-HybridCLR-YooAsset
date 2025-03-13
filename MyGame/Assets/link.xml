@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <assembly fullname="UnityEngine">
+    <type fullname="UnityEngine.AudioListener" preserve="all"/>
+    <type fullname="UnityEngine.ParticleSystem" preserve="all"/>
+    <type fullname="UnityEngine.ParticleSystemRenderer" preserve="all"/>
+    <type fullname="UnityEngine.CapsuleCollider" preserve="all"/>
+    <type fullname="UnityEngine.SphereCollider" preserve="all"/>
+    <type fullname="UnityEngine.MeshCollider" preserve="all"/>
+  </assembly>
+</linker>
