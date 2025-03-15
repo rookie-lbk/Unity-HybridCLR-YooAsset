@@ -13,6 +13,7 @@ public class BuildTools
 {
     public static BuildTarget buildTarget = BuildTarget.Android;
     public static string CDNPath = "D:/CDN/MyGame/";
+    public static string PackageName = "DefaultPackage";
 
     public static string ProjectPath = Application.dataPath.Replace("Assets", "");
     public static string BuildAOTDllsPath = $"{ProjectPath}{HybridCLRSettings.Instance.strippedAOTDllOutputRootDir}/{buildTarget}/";
@@ -28,8 +29,7 @@ public class BuildTools
     [MenuItem("BuildTools/Test")]
     public static void Test()
     {
-        Debug.Log($"ProjectPath:{ProjectPath}");
-        Debug.Log($"CDNPath:{CDNPath}");
+
     }
 
     [MenuItem("BuildTools/BuildApk")]
@@ -74,6 +74,7 @@ public class BuildTools
     private static void CopyAOTDlls()
     {
         Debug.Log($"====== BuildTools CopyAOTDlls Start ======");
+        List<string> dllNames = new();
         foreach (string dllName in HybridCLRSettings.Instance.patchAOTAssemblies)
         {
             string dllPath = $"{BuildAOTDllsPath}{dllName}.dll";
@@ -82,11 +83,13 @@ public class BuildTools
                 Debug.LogError($"{dllName}不存在");
                 continue;
             }
+            dllNames.Add(dllName + ".dll");
             byte[] dllData = File.ReadAllBytes(dllPath);
-            string resPath = $"{AOTDllPath}{dllName}.bytes";
+            string resPath = $"{AOTDllPath}{dllName}.dll.bytes";
+            Debug.Log($"resPath:{resPath} dllPath:{dllPath}");
             File.WriteAllBytes(resPath, dllData);
         }
-        var json = JsonConvert.SerializeObject(HybridCLRSettings.Instance.patchAOTAssemblies);
+        var json = JsonConvert.SerializeObject(dllNames);
         File.WriteAllText($"{AOTDllPath}AOTDLLList.txt", json);
         AssetDatabase.Refresh();
         Debug.Log($"====== BuildTools CopyAOTDlls End ======");
@@ -95,6 +98,7 @@ public class BuildTools
     private static void CopyHotUpdateDlls()
     {
         Debug.Log($"====== BuildTools CopyHotUpdateDlls Start ======");
+        List<string> dllNames = new();
         foreach (string dllName in HybridCLRSettings.Instance.hotUpdateAssemblies)
         {
             string dllPath = $"{BuildHotUpdateDllsPath}{dllName}.dll";
@@ -103,11 +107,13 @@ public class BuildTools
                 Debug.LogError($"{dllName}不存在");
                 continue;
             }
+            dllNames.Add(dllName + ".dll");
             byte[] dllData = File.ReadAllBytes(dllPath);
-            string resPath = $"{HotUpdateDllPath}{dllName}.bytes";
+            string resPath = $"{HotUpdateDllPath}{dllName}.dll.bytes";
+            Debug.Log($"resPath:{resPath} dllPath:{dllPath}");
             File.WriteAllBytes(resPath, dllData);
         }
-        var json = JsonConvert.SerializeObject(HybridCLRSettings.Instance.hotUpdateAssemblies);
+        var json = JsonConvert.SerializeObject(dllNames);
         File.WriteAllText($"{HotUpdateDllPath}HotUpdateDLLList.txt", json);
         AssetDatabase.Refresh();
         Debug.Log($"====== BuildTools CopyHotUpdateDlls End ======");
@@ -131,7 +137,7 @@ public class BuildTools
             BuildPipeline = EBuildPipeline.BuiltinBuildPipeline.ToString(),
             BuildBundleType = (int)EBuildBundleType.AssetBundle,
             BuildTarget = BuildTarget.Android,
-            PackageName = "DefaultPackage",
+            PackageName = PackageName,
             PackageVersion = packageVersion,
             PackageNote = "DefaultPackage",
             ClearBuildCacheFiles = true,
@@ -169,7 +175,6 @@ public class BuildTools
     {
         // 创建目标目录
         Directory.CreateDirectory(destinationDir);
-
         // 复制所有文件
         foreach (string file in Directory.GetFiles(sourceDir))
         {
@@ -190,8 +195,8 @@ public class BuildTools
     private static void CopyAssetBundleToCDN()
     {
         Debug.Log($"====== BuildTools CopyAssetBundleToCDN Start ======");
-        string fromPath = Path.Combine(buildoutputRoot, buildTarget.ToString());
-        string toPath = Path.Combine(CDNPath, buildTarget.ToString());
+        string fromPath = Path.Combine(buildoutputRoot, buildTarget.ToString(), PackageName, GetPackageVersion());
+        string toPath = Path.Combine(CDNPath, buildTarget.ToString(), "CDN", GetPackageVersion());
         Debug.Log($"fromPath:{fromPath}");
         Debug.Log($"toPath:{toPath}");
         CopyDirectory(fromPath, toPath);
@@ -208,7 +213,6 @@ public class BuildTools
             if (e.enabled)
                 names.Add(e.path);
         }
-
         return names.ToArray();
     }
 
@@ -218,14 +222,8 @@ public class BuildTools
         string packageVersion = GetPackageVersion();
         string[] scenes = GetBuildScenes();
         string outputPath = $"{PackageExportPath}{buildTarget.ToString()}/{PlayerSettings.productName}_{packageVersion}_{DateTime.Now.ToString("yyyy_M_d_HH_mm_s")}.apk";
-
-        BuildPlayerOptions buildPlayerOptions = new();
-        buildPlayerOptions.scenes = scenes;
-        buildPlayerOptions.locationPathName = outputPath;
-        buildPlayerOptions.target = buildTarget;
-        buildPlayerOptions.options = BuildOptions.None;
-
-        UnityEditor.Build.Reporting.BuildReport result = BuildPipeline.BuildPlayer(buildPlayerOptions);
+        BuildOptions options = BuildOptions.Development | BuildOptions.ConnectWithProfiler | BuildOptions.AllowDebugging;
+        UnityEditor.Build.Reporting.BuildReport result = BuildPipeline.BuildPlayer(scenes, outputPath, buildTarget, options);
         if (result.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
         {
             Debug.LogError("====== BuildTools BuildAPK Failed ====== result:" + result);

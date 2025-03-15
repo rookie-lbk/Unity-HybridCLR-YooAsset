@@ -1,6 +1,1 @@
-[
-    "mscorlib.dll",
-    "System.dll",
-    "System.Core.dll",
-    "Main.dll"
-]
+["mscorlib.dll","System.dll","System.Core.dll","Main.dll"]
