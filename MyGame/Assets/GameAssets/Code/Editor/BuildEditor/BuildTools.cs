@@ -14,6 +14,15 @@ public class BuildTools
     public static BuildTarget buildTarget = BuildTarget.Android;
     public static string CDNPath = "D:/CDN/MyGame/";
     public static string PackageName = "DefaultPackage";
+    public static string[] patchAOTAssemblies = new string[]{
+        "mscorlib",
+        "System",
+        "System.Core",
+        "Main",
+    };
+    public static string[] hotUpdateAssemblies = new string[]{
+        "Game",
+    };
 
     public static string ProjectPath = Application.dataPath.Replace("Assets", "");
     public static string BuildAOTDllsPath = $"{ProjectPath}{HybridCLRSettings.Instance.strippedAOTDllOutputRootDir}/{buildTarget}/";
@@ -35,8 +44,6 @@ public class BuildTools
     [MenuItem("BuildTools/BuildApk")]
     public static void Build()
     {
-        // 设置AOT和HotUpdate的DLL
-        SetAOTHotUpdateDlls();
         // 执行GenerateAll
         BuildAOTDlls();
         // 将AOT的DLL存放至指定目录，并更新列表信息
@@ -51,19 +58,6 @@ public class BuildTools
         BuildAPK();
     }
 
-    public static void SetAOTHotUpdateDlls()
-    {
-        HybridCLRSettings.Instance.patchAOTAssemblies = new string[]{
-            "mscorlib",
-            "System",
-            "System.Core",
-            "Main",
-        };
-        HybridCLRSettings.Instance.hotUpdateAssemblies = new string[]{
-            "Game",
-        };
-    }
-
     private static void BuildAOTDlls()
     {
         Debug.Log($"====== BuildTools BuildAOTDlls Start ======");
@@ -75,7 +69,7 @@ public class BuildTools
     {
         Debug.Log($"====== BuildTools CopyAOTDlls Start ======");
         List<string> dllNames = new();
-        foreach (string dllName in HybridCLRSettings.Instance.patchAOTAssemblies)
+        foreach (string dllName in patchAOTAssemblies)
         {
             string dllPath = $"{BuildAOTDllsPath}{dllName}.dll";
             if (!File.Exists(dllPath))
@@ -99,7 +93,7 @@ public class BuildTools
     {
         Debug.Log($"====== BuildTools CopyHotUpdateDlls Start ======");
         List<string> dllNames = new();
-        foreach (string dllName in HybridCLRSettings.Instance.hotUpdateAssemblies)
+        foreach (string dllName in hotUpdateAssemblies)
         {
             string dllPath = $"{BuildHotUpdateDllsPath}{dllName}.dll";
             if (!File.Exists(dllPath))
