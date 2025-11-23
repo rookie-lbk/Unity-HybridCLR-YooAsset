@@ -35,10 +35,15 @@ public class BuildTools
     public static string buildoutputRoot = AssetBundleBuilderHelper.GetDefaultBuildOutputRoot();
     public static string streamingAssetsRoot = AssetBundleBuilderHelper.GetStreamingAssetsRoot();
 
-    [MenuItem("BuildTools/Test")]
-    public static void Test()
+    [MenuItem("BuildTools/BuildDlls")]
+    public static void BuildDlls()
     {
-
+        // 执行GenerateAll
+        BuildAOTDlls();
+        // 将AOT的DLL存放至指定目录，并更新列表信息
+        CopyAOTDlls();
+        // 将参与更新的DLL存放至指定目录，并更新列表信息
+        CopyHotUpdateDlls();
     }
 
     [MenuItem("BuildTools/BuildApk")]
