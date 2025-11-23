@@ -79,8 +79,17 @@ internal class FsmInitialize : IStateNode
         await initializationOperation.ToUniTask();
         if (package.InitializeStatus == EOperationStatus.Succeed)
         {
-
-            _machine.ChangeState<FsmUpdateVersion>();
+            // 离线模式需要更新本地清单
+            if (PatchManager.Instance.PlayMode == EPlayMode.OfflinePlayMode)
+            {
+                Debug.Log("离线模式：初始化成功，更新本地资源清单");
+                await UpdateOfflineManifest(package);
+            }
+            else
+            {
+                // 在线模式继续更新版本
+                _machine.ChangeState<FsmUpdateVersion>();
+            }
         }
         else
         {
@@ -134,6 +143,27 @@ internal class FsmInitialize : IStateNode
         string IRemoteServices.GetRemoteFallbackURL(string fileName)
         {
             return $"{_fallbackHostServer}/{fileName}";
+        }
+    }
+
+    /// <summary>
+    /// 离线模式更新本地资源清单
+    /// </summary>
+    private async UniTask UpdateOfflineManifest(ResourcePackage package)
+    {
+        // 离线模式使用内置的资源版本
+        var operation = package.UpdatePackageManifestAsync(PublicData.Version);
+        await operation.ToUniTask();
+
+        if (operation.Status == EOperationStatus.Succeed)
+        {
+            Debug.Log("离线模式：资源清单更新成功，开始加载热更新 DLL");
+            _machine.ChangeState<FsmLoadHotUpdateDll>();
+        }
+        else
+        {
+            Debug.LogError($"离线模式：资源清单更新失败 - {operation.Error}");
+            PatchEventDefine.InitializeFailed.SendEventMessage();
         }
     }
 
