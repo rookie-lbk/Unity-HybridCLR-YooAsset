@@ -216,6 +216,7 @@ public class BuildTools
         string packageVersion = GetPackageVersion();
         string[] scenes = GetBuildScenes();
         string outputPath = $"{PackageExportPath}{buildTarget.ToString()}/{PlayerSettings.productName}_{packageVersion}_{DateTime.Now.ToString("yyyy_M_d_HH_mm_s")}.apk";
+        Debug.Log($"outputPath:{outputPath}");
         BuildOptions options = BuildOptions.Development | BuildOptions.ConnectWithProfiler | BuildOptions.AllowDebugging;
         UnityEditor.Build.Reporting.BuildReport result = BuildPipeline.BuildPlayer(scenes, outputPath, buildTarget, options);
         if (result.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
