@@ -17,7 +17,6 @@ public class HotUpdateLuncher : MonoBehaviour
     // Start is called before the first frame update
     public async UniTaskVoid Start()
     {
-        //await YooAssets.LoadSceneAsync("HotUpdateScene");
         await YooAssets.LoadSceneAsync("HotUpdateScene");
         Debug.Log("热更新测试");
     }

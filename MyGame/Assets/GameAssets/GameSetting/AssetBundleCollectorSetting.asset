@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowPackageView: 0
   ShowEditorAlias: 1
-  UniqueBundleName: 1
+  UniqueBundleName: 0
   Packages:
   - PackageName: DefaultPackage
     PackageDesc: 
     EnableAddressable: 1
+    SupportExtensionless: 1
     LocationToLower: 0
-    IncludeAssetGUID: 1
+    IncludeAssetGUID: 0
     AutoCollectShaders: 1
     IgnoreRuleName: NormalIgnoreRule
     Groups:
     - GroupName: battle
       GroupDesc: "\u6218\u6597"
-      AssetTags: battle
+      AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/GameAssets/Res/Effect
@@ -71,7 +72,7 @@ MonoBehaviour:
         UserData: 
     - GroupName: shader
       GroupDesc: "\u7740\u8272\u5668"
-      AssetTags: shader
+      AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/GameAssets/Res/Shader
@@ -92,7 +93,7 @@ MonoBehaviour:
         UserData: 
     - GroupName: scene
       GroupDesc: "\u573A\u666F"
-      AssetTags: scene
+      AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/GameAssets/Res/Scene
@@ -100,7 +101,7 @@ MonoBehaviour:
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackSeparately
-        FilterRuleName: CollectAll
+        FilterRuleName: CollectScene
         AssetTags: 
         UserData: 
       - CollectPath: Assets/GameAssets/Res/SceneArt
@@ -113,7 +114,7 @@ MonoBehaviour:
         UserData: 
     - GroupName: ugui
       GroupDesc: "\u9762\u677F"
-      AssetTags: ugui
+      AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/GameAssets/Res/UIPanel
