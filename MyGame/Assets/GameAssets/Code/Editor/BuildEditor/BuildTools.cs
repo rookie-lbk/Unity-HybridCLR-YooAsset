@@ -46,15 +46,10 @@ public class BuildTools
         CopyHotUpdateDlls();
     }
 
-    [MenuItem("BuildTools/BuildApk")]
-    public static void Build()
+    [MenuItem("BuildTools/BuildApk_Debug")]
+    public static void BuildApk_Debug()
     {
-        // 执行GenerateAll
-        BuildAOTDlls();
-        // 将AOT的DLL存放至指定目录，并更新列表信息
-        CopyAOTDlls();
-        // 将参与更新的DLL存放至指定目录，并更新列表信息
-        CopyHotUpdateDlls();
+        BuildDlls();
         // 设置资源版本，YooAsset打包全量资源
         BuildAssetBundle();
         // 将资源包存放至CDN
