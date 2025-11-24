@@ -162,7 +162,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.WonderBoxGames.test
+    Android: com.wonderboxgames.spaceshooter
     Standalone: com.lbk.MyGame
   buildNumber:
     Standalone: 0
