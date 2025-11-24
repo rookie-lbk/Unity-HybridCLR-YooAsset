@@ -93,7 +93,16 @@ public class EntityPlayer : MonoBehaviour
     {
         // 将屏幕坐标的移动转换为世界坐标的移动
         Vector3 movement = new Vector3(delta.x, 0, delta.y) * moveSpeed * Time.deltaTime;
-        _rigidbody.transform.Translate(movement);
+
+        // 计算新位置
+        Vector3 newPosition = _rigidbody.transform.position + movement;
+
+        // 限制在边界范围内
+        newPosition.x = Mathf.Clamp(newPosition.x, Boundary.xMin, Boundary.xMax);
+        newPosition.z = Mathf.Clamp(newPosition.z, Boundary.zMin, Boundary.zMax);
+
+        // 应用新位置
+        _rigidbody.transform.position = newPosition;
     }
     void OnTriggerEnter(Collider other)
     {
