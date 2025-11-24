@@ -39,4 +39,10 @@
 		设置资源版本，YooAsset打包增量资源
 		将资源包存放至CDN
 		提升资源版本
-		
+
+问题记录：
+	YooAsset在Android平台离线运行显示紫图的问题：
+		问题：在编辑器下，用离线模式或联机模式运行游戏，为什么游戏里的模型会变成紫色？
+		如果在打AssetBundle的时候，选定的构建目标是安卓。那么在windows操作系统下，编辑器的默认渲染模式为DX11，我们需要修改编辑器的渲染模式，可以通过UnityHub来修改启动项目的编辑器渲染模式，参考官方文档。
+		在Vulkan下打包的编辑器需要加个command -force-vulkan
+		windows平台添加命令: -force-gles
