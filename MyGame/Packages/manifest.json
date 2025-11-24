@@ -4,6 +4,7 @@
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.tuyoogame.yooasset": "2.3.17",
     "com.unity.collab-proxy": "2.7.1",
+    "com.unity.device-simulator.devices": "1.0.1",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.cursor": "https://github.com/boxqkrtm/com.unity.ide.cursor.git",
     "com.unity.mobile.android-logcat": "1.4.4",

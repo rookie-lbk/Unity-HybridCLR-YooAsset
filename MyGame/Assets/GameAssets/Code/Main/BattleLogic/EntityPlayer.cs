@@ -92,7 +92,7 @@ public class EntityPlayer : MonoBehaviour
     void MoveObject(Vector2 delta)
     {
         // 将屏幕坐标的移动转换为世界坐标的移动
-        Vector3 movement = new Vector3(delta.x, delta.y, 0) * moveSpeed * Time.deltaTime;
+        Vector3 movement = new Vector3(delta.x, 0, delta.y) * moveSpeed * Time.deltaTime;
         _rigidbody.transform.Translate(movement);
     }
     void OnTriggerEnter(Collider other)
