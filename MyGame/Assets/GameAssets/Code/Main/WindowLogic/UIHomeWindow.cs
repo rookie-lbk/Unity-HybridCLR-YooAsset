@@ -8,6 +8,11 @@ public class UIHomeWindow : MonoBehaviour
     private Text _version;
     private GameObject _aboutView;
 
+    [SerializeField]
+    private string _termUrl = "https://www.google.com";
+    [SerializeField]
+    private string _policyUrl = "https://www.google.com";
+
     private void Awake()
     {
         _version = this.transform.Find("version").GetComponent<Text>();
@@ -21,6 +26,12 @@ public class UIHomeWindow : MonoBehaviour
 
         var maskBtn = this.transform.Find("AboutView/mask").GetComponent<Button>();
         maskBtn.onClick.AddListener(OnClickMaskBtn);
+
+        var termBtn = this.transform.Find("TermButton").GetComponent<Button>();
+        termBtn.onClick.AddListener(OnClickTermBtn);
+
+        var policyBtn = this.transform.Find("PolicyButton").GetComponent<Button>();
+        policyBtn.onClick.AddListener(OnClickPolicyBtn);
     }
     private void Start()
     {
@@ -39,5 +50,13 @@ public class UIHomeWindow : MonoBehaviour
     private void OnClickMaskBtn()
     {
         _aboutView.SetActive(false);
+    }
+    private void OnClickTermBtn()
+    {
+        Application.OpenURL(_termUrl);
+    }
+    private void OnClickPolicyBtn()
+    {
+        Application.OpenURL(_policyUrl);
     }
 }
