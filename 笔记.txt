@@ -58,3 +58,47 @@ Keystore:MyGame/Keystore/wonderboxgames.keystore
 Password:110929
 Alias:wonderboxgames
 Password:110929
+
+隐私政策
+服务条款
+
+构建linux可执行文件
+	set GOARCH=amd64
+	go env -w GOARCH=amd64
+	set GOOS=linux
+	go env -w GOOS=linux
+	go build -o WonderBoxGames
+
+
+使用 systemd 服务运行程序
+1.创建服务文件：
+	sudo vim /etc/systemd/system/WonderBoxGames.service
+2.输入文件内容
+	[Unit]
+	Description=WonderBoxGames
+
+	[Service]
+	Type=simple
+	User=root
+	WorkingDirectory=/tmp/go
+	ExecStart=/tmp/go/WonderBoxGames
+	Restart=always  # 程序崩溃时自动重启
+
+	[Install]
+	WantedBy=multi-user.target
+3.启动服务
+	sudo systemctl start WonderBoxGames
+	sudo systemctl enable WonderBoxGames  # 开机自启
+4.查看日志
+	sudo journalctl -u WonderBoxGames -f
+
+
+
+
+
+
+
+
+
+
+
